@@ -18,6 +18,12 @@ export default function VideoToGif() {
   useEffect(() => {
     async function loadFFmpeg() {
       try {
+        // Check if we can use SharedArrayBuffer
+        const hasSharedArrayBuffer = typeof SharedArrayBuffer !== 'undefined';
+        if (!hasSharedArrayBuffer) {
+          console.warn('SharedArrayBuffer not available, ffmpeg.wasm may have limited functionality');
+        }
+
         // If UMD is already present on window, use it
         if (!(window && window.FFmpeg && window.FFmpeg.createFFmpeg)) {
           await new Promise((resolve, reject) => {
@@ -39,7 +45,13 @@ export default function VideoToGif() {
         setCreateFFmpeg(() => cf);
         setFetchFile(() => ff);
         // Use CDN corePath compatible with the dist build
-        const ffmpegInstance = cf({ log: true, corePath: 'https://unpkg.com/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js' });
+        const ffmpegInstance = cf({ 
+          log: true, 
+          corePath: 'https://unpkg.com/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js',
+          // GitHub Pages compatibility
+          wasmPath: 'https://unpkg.com/@ffmpeg/core@0.11.0/dist/ffmpeg-core.wasm',
+          workerPath: 'https://unpkg.com/@ffmpeg/core@0.11.0/dist/ffmpeg-core.worker.js'
+        });
         ffmpegInstance.setProgress && ffmpegInstance.setProgress(({ ratio }) => {
           setProgress(Math.round((ratio || 0) * 100));
         });

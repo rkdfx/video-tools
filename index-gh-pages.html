@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/video-tools/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VTools</title>
+  <script type="module" crossorigin src="/video-tools/assets/index-HASH.js"></script>
+  <link rel="stylesheet" crossorigin href="/video-tools/assets/index-HASH.css">
+  
+  <!-- Enable SharedArrayBuffer for GitHub Pages -->
+  <script>
+    // GitHub Pages workaround for SharedArrayBuffer
+    if (typeof SharedArrayBuffer === 'undefined') {
+      // Polyfill for environments without SharedArrayBuffer
+      window.SharedArrayBuffer = ArrayBuffer;
+    }
+    
+    // Set COOP and COEP headers via meta tags (GitHub Pages workaround)
+    if (typeof document !== 'undefined') {
+      const meta1 = document.createElement('meta');
+      meta1.httpEquiv = 'Cross-Origin-Opener-Policy';
+      meta1.content = 'same-origin';
+      document.head.appendChild(meta1);
+      
+      const meta2 = document.createElement('meta');
+      meta2.httpEquiv = 'Cross-Origin-Embedder-Policy';
+      meta2.content = 'require-corp';
+      document.head.appendChild(meta2);
+    }
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+</html>
