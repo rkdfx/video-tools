@@ -35,6 +35,9 @@ jobs:
       
       - name: Build
         run: npm run build
+        
+      - name: List build output (debug)
+        run: ls -la dist/
       
       - name: Add COOP/COEP headers for GitHub Pages
         run: |
